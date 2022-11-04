@@ -2,11 +2,9 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-
 public class ConnectionFactory {
 
-  private String host = "localhost";
+  private String host = "localhost:3306";
   private String banco = "controle_caixa";
   private String usuario = "root";
   private String senha = "mysql";
