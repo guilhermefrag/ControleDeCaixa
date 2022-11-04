@@ -1,4 +1,4 @@
-package models;
+package database.model;
 
 public class Conta {
     private int id;
