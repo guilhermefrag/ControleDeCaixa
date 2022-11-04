@@ -1,4 +1,4 @@
-package models;
+package database.model;
 
 public class Usuario {
     private int id;
