@@ -3,48 +3,59 @@ package database.model;
 import java.sql.Date;
 
 public class Movimentacao {
-    private int id;
-    private int idUsuario;
-    private String tipo;
-    private double valor;
-    private Date data_movimentacao;
 
-    public Movimentacao(int id, int idUsuario, String tipo, double valor) {
-        this.id = id;
-        this.idUsuario = idUsuario;
-        this.tipo = tipo;
-        this.valor = valor;
-    }
+  private int id;
+  private int id_usuario;
+  private String tipo;
+  private Float valor;
+  private Date data_movimentacao;
 
-    public int getId() {
-        return id;
-    }
+  public Movimentacao() {}
 
-    public int getIdUsuario() {
-        return idUsuario;
-    }
+  public Movimentacao(int id, int id_usuario, String tipo, Float valor) {
+    this.id = id;
+    this.id_usuario = id_usuario;
+    this.tipo = tipo;
+    this.valor = valor;
+  }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public String getTipo() {
-        return tipo;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+  public int getIdUsuario() {
+    return id_usuario;
+  }
 
-    public double getValor() {
-        return valor;
-    }
+  public void setIdUsuario(int id_usuario) {
+    this.id_usuario = id_usuario;
+  }
 
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
+  public String getTipo() {
+    return tipo;
+  }
 
-    public Date getData_movimentacao() {
-        return data_movimentacao;
-    }
+  public void setTipo(String tipo) {
+    this.tipo = tipo;
+  }
+
+  public double getValor() {
+    return valor;
+  }
+
+  public void setValor(Float valor) {
+    this.valor = valor;
+  }
+
+  public void setDataMovimentacao(Date data_movimentacao) {
+    this.data_movimentacao = data_movimentacao;
+  }
+
+  public Date getDataMovimentacao() {
+    return data_movimentacao;
+  }
 }
