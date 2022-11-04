@@ -17,7 +17,7 @@ public class ConnectionFactory {
     try {
       connection = DriverManager.getConnection(url, usuario, senha);
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      System.out.println("Erro " + e.getMessage());
     }
 
     if (connection != null) {
@@ -27,5 +27,17 @@ public class ConnectionFactory {
     }
 
     return connection;
+  }
+
+  public boolean fecharConexao() {
+    if (connection != null) {
+      try {
+        connection.close();
+        return true;
+      } catch (Exception e) {
+        System.out.println("Erro " + e.getMessage());
+      }
+    }
+    return false;
   }
 }
