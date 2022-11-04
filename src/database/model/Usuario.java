@@ -7,8 +7,7 @@ public class Usuario {
     private String sobrenome;
     private String cpf;
 
-    public Usuario(int id, int codigo, String nome, String sobrenome, String cpf) {
-        this.id = id;
+    public Usuario(int codigo, String nome, String sobrenome, String cpf) {
         this.codigo = codigo;
         this.nome = nome;
         this.sobrenome = sobrenome;
