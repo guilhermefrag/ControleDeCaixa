@@ -28,13 +28,16 @@ public class UsuarioDAO {
 
     }
 
-    public void getUsuario() {
-        String sql = "SELECT * FROM usuario;";
+    public void Select() {
+        String sql = "SELECT * FROM usuario";
         try{
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             
+            Usuario usuario = new Usuario();
+
             while(rs.next()){
+                usuario.setId(rs.getInt("id"))
                 int codigo = rs.getInt("codigo");
                 String nome = rs.getString("nome");
                 String sobrenome = rs.getString("sobrenome");
@@ -48,7 +51,7 @@ public class UsuarioDAO {
         
     }
 
-    public int getIdUsuario(int codigo) {
+    public int getById(int codigo) {
         String sql = "SELECT * FROM usuario WHERE codigo = " + codigo + ";";
         try{
             Statement stmt = connection.createStatement();
