@@ -12,7 +12,13 @@ import database.DAOs.UsuarioDAO;
 public class App {
 
     public static void Transacoes(){
-        System.out.println("2 - Entrar com Usuário\n");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("-----Escolha a operação você deseja realizar-----\n");
+        System.out.println("1 - Saque\n");
+        System.out.println("2 - Depósito\n");
+        System.out.println("Digite a opção: ");
+        int opcao = scanner.nextInt();
     }
 
     public static void main(String[] args) throws Exception {
@@ -24,5 +30,13 @@ public class App {
         System.out.println("2 - Entrar com Usuário\n");
         System.out.println("Digite a opção: ");
         int opcao = scanner.nextInt();
+
+        if (opcao == 1) {
+
+        }
+        else if (opcao == 2){
+            System.out.println("Digite o seu código de usuario: ");
+            Transacoes();
+        }
     }
 }

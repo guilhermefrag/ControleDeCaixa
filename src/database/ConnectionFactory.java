@@ -2,40 +2,29 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+
 public class ConnectionFactory {
 
-  private String host = "localhost:3306";
-  private String banco = "controle_caixa";
-  private String usuario = "root";
-  private String senha = "mysql";
-  private String url = "jdbc:mysql://" + host + "/" + banco;
-  private Connection connection;
+    private String host = "containers-us-west-44.railway.app";
+    private String banco = "controle_caixa";
+    private String usuario = "root";
+    private String senha = "bsp6MU5DtQhH32DvayA9";
+    private String url = "jdbc:mysql://" + host + "/" + banco;
+    private Connection connection;
 
-  public Connection getConexao() {
-    try {
-      connection = DriverManager.getConnection(url, usuario, senha);
-    } catch (Exception e) {
-      System.out.println("Erro " + e.getMessage());
+    public Connection getConexao() {
+        try {
+            connection = DriverManager.getConnection(url, usuario, senha);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        if (connection != null) {
+            System.out.println("Conectado com sucesso");
+        } else {
+            System.out.println("Não foi possível conectar");
+        }
+
+        return connection;
     }
-
-    if (connection != null) {
-      System.out.println("Conectado com sucesso");
-    } else {
-      System.out.println("Não foi possível conectar");
-    }
-
-    return connection;
-  }
-
-  public boolean fecharConexao() {
-    if (connection != null) {
-      try {
-        connection.close();
-        return true;
-      } catch (Exception e) {
-        System.out.println("Erro " + e.getMessage());
-      }
-    }
-    return false;
-  }
 }
