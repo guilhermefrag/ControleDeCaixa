@@ -14,6 +14,10 @@ public class Usuario {
         this.cpf = cpf;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
