@@ -119,7 +119,8 @@ public class App {
             Transacoes();
         }
         else if (opcao == 3){
-            System.out.println("Seu saldo é: " + contaDAO.getSaldo(usuario.getId()));
+            System.out.println("Seu saldo é de : " + contaDAO.getSaldo(usuario.getId()) + " reais");
+            Transacoes();
         }
         else {
             System.out.println("Saindo...");
