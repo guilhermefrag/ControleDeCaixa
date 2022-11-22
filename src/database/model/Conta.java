@@ -5,6 +5,10 @@ public class Conta {
     private int idUsuario;
     private double valorTotal;
 
+    public Conta() {
+
+    }
+
     public Conta(int id, int idUsuario) {
         this.id = id;
         this.idUsuario = idUsuario;
@@ -13,6 +17,10 @@ public class Conta {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getIdUsuario() {

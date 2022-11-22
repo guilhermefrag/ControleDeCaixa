@@ -2,67 +2,87 @@ package database.DAOs;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
+import java.util.List;
 import java.sql.Connection;
+import java.util.ArrayList;
 
-import database.ConnectionFactory;
 import database.model.Usuario;
 public class UsuarioDAO {
-    private Connection connection;
+    private Connection conexao;
+    private String select = "SELECT * from usuario order by id";
+    private String selectComClausula = "SELECT * FROM usuario WHERE id = ?";
+    private String insert = "INSERT into usuario " + "(codigo, nome, sobrenome, cpf) VALUES (?, ?, ?, ?)";
+    private String delete = "DELETE FROM usuario WHERE id = ?";
 
-    public String cadastraUsuario(Usuario usuario) {
-        String sql = "INSERT INTO usuarios(codigo, nome, sobrenome, cpf) VALUES (?,?,?,?)";
-        try{
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, usuario.getCodigo());
-            stmt.setString(2, usuario.getNome());
-            stmt.setString(3, usuario.getSobrenome());
-            stmt.setString(4, usuario.getCpf());
-            stmt.execute();
-            stmt.close();
-            return "Usuário cadastrado com sucesso!";
-        }catch(SQLException u){
-            throw new RuntimeException(u);
-        }
+    private PreparedStatement pstSelect;
+    private PreparedStatement pstSelectComClasula;
+    private PreparedStatement pstInsert;
+    private PreparedStatement pstDelete;
 
+    public UsuarioDAO(Connection conexao) throws SQLException {
+        this.conexao = conexao;
+        pstSelect = this.conexao.prepareStatement(select);
+        pstSelectComClasula = this.conexao.prepareStatement(selectComClausula);
+        pstInsert = this.conexao.prepareStatement(insert);
+        pstDelete = this.conexao.prepareStatement(delete);
     }
 
-    public void Select() {
-        String sql = "SELECT * FROM usuario";
-        try{
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            
-            Usuario usuario = new Usuario();
+    public List<Usuario> Select() throws SQLException {
+        ResultSet resultado = pstSelect.executeQuery();
+        List<Usuario> arlUsuario = new ArrayList<>();
 
-            while(rs.next()){
-                usuario.setId(rs.getInt("id"))
-                int codigo = rs.getInt("codigo");
-                String nome = rs.getString("nome");
-                String sobrenome = rs.getString("sobrenome");
-                String cpf = rs.getString("cpf");
-                System.out.println("Código: " + codigo + " Nome: " + nome + " Sobrenome: " + sobrenome + " CPF: " + cpf);
-            }
-        
-        }catch(SQLException u){
-            System.out.println("Erro: " + u.getMessage());
+        while (resultado.next()) {
+            Usuario p = new Usuario();
+            p.setId(resultado.getInt("id"));
+            p.setCodigo(resultado.getInt("codigo"));
+            p.setNome(resultado.getString("nome"));
+            p.setSobrenome(resultado.getString("sobrenome"));
+            p.setCpf(resultado.getString("cpf"));
+
+            arlUsuario.add(p);
         }
-        
+
+        return arlUsuario;
     }
 
-    public int getById(int codigo) {
-        String sql = "SELECT * FROM usuario WHERE codigo = " + codigo + ";";
-        try{
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            
-            int id = rs.getInt("id");
-            return id;
-        
-        }catch(SQLException u){
-            throw new RuntimeException(u);
+    public int Insert(Object param) throws SQLException {
+        Usuario p = (Usuario) param;
+
+        pstInsert.setInt(1, p.getCodigo());
+        pstInsert.setString(2, p.getNome());
+        pstInsert.setString(3, p.getSobrenome());
+        pstInsert.setString(4, p.getCpf());
+
+        pstInsert.execute();
+
+        return pstInsert.getUpdateCount();
+    }
+
+    public List<Usuario> SelectComClausula(Object param) throws SQLException {
+        Usuario p = (Usuario) param;
+        pstSelectComClasula.setInt(1, p.getId());
+        ResultSet resultado = pstSelectComClasula.executeQuery();
+        List<Usuario> arlUsuario = new ArrayList<>();
+
+        while (resultado.next()) {
+            p = new Usuario();
+            p.setId(resultado.getInt("id"));
+            p.setCodigo(resultado.getInt("codigo"));
+            p.setNome(resultado.getString("nome"));
+            p.setSobrenome(resultado.getString("sobrenome"));
+            p.setCpf(resultado.getString("cpf"));
+
+            arlUsuario.add(p);
         }
-        
+
+        return arlUsuario;
+    }
+
+    public int Delete(Object param) throws SQLException {
+        Usuario p = (Usuario) param;
+        pstDelete.setInt(1, p.getId());
+        pstDelete.execute();
+
+        return pstDelete.getUpdateCount();
     }
 }

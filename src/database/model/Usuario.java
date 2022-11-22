@@ -7,6 +7,10 @@ public class Usuario {
     private String sobrenome;
     private String cpf;
 
+    public Usuario() {
+        
+    }
+
     public Usuario(int codigo, String nome, String sobrenome, String cpf) {
         this.codigo = codigo;
         this.nome = nome;

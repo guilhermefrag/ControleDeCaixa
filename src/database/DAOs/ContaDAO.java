@@ -1,93 +1,62 @@
 package database.DAOs;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
+import database.model.Conta;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContaDAO {
     private Connection conexao;
-    private String select = "SELECT * from conta order by id";
-    private String selectComClausula = "SELECT * from conta WHERE id = ?";
-    private String insert =
-      "INSERT into conta " + "(idUsuario, valor_total) VALUES (?, ?)";
-    private String update = "UPDATE conta " + "SET valor_total=? WHERE id = ?";
-    private String delete = "DELETE from conta WHERE id = ?";
-  
-    private PreparedStatement pstSelect;
+    private String selectComClausula = "SELECT * from conta WHERE id_usuario = ?";
+    private String insert = "INSERT into conta " + "(id_usuario, valor_total) VALUES (?, ?)";
+    private String update = "UPDATE conta " + "SET valor_total = ? WHERE id_usuario = ?";
+
     private PreparedStatement pstSelectComClasula;
     private PreparedStatement pstInsert;
     private PreparedStatement pstUpdate;
-    private PreparedStatement pstDelete;
-  
-    public MovimentacaoDAO(Connection conexao) throws SQLException {
-      this.conexao = conexao;
-      pstSelect = this.conexao.prepareStatement(select);
-      pstSelectComClasula = this.conexao.prepareStatement(selectComClausula);
-      pstInsert = this.conexao.prepareStatement(insert);
-      pstUpdate = this.conexao.prepareStatement(update);
-      pstDelete = this.conexao.prepareStatement(delete);
+
+    public ContaDAO(Connection conexao) throws SQLException {
+        this.conexao = conexao;
+        pstSelectComClasula = this.conexao.prepareStatement(selectComClausula);
+        pstInsert = this.conexao.prepareStatement(insert);
+        pstUpdate = this.conexao.prepareStatement(update);
     }
-  
-    public List<Movimentacao> Select() throws SQLException {
-      ResultSet resultado = pstSelect.executeQuery();
-      List<Movimentacao> arlMovimentacao = new ArrayList<>();
-  
-      while (resultado.next()) {
-        Movimentacao p = new Movimentacao();
-        p.setIdUsuario(resultado.getInt("id_usuario"));
-        p.setId(resultado.getInt("id"));
-        p.setTipo(resultado.getString("tipo"));
-        p.setValor(resultado.getFloat("valor"));
-        p.setDataMovimentacao(resultado.getDate("data_movimentacao"));
-  
-        arlMovimentacao.add(p);
-      }
-  
-      return arlMovimentacao;
+
+    public List<Conta> SelectComClausula(int idUsuario) throws SQLException {
+        pstSelectComClasula.setInt(1, idUsuario);
+        ResultSet resultado = pstSelectComClasula.executeQuery();
+        List<Conta> arlConta = new ArrayList<>();
+
+        while (resultado.next()) {
+            Conta p = new Conta();
+            p.setId(resultado.getInt("id"));
+            p.setIdUsuario(resultado.getInt("id_usuario"));
+            p.setValorTotal(resultado.getFloat("valor_total"));
+
+            arlConta.add(p);
+        }
+
+        return arlConta;
     }
-  
+
     public int Insert(Object param) throws SQLException {
-      Movimentacao p = (Movimentacao) param;
-  
-      pstInsert.setInt(1, p.getIdUsuario());
-      pstInsert.setString(2, p.getTipo());
-      pstInsert.setDouble(3, p.getValor());
-      pstInsert.setTimestamp(4, new Timestamp(p.getDataMovimentacao().getTime()));
-  
-      pstInsert.execute();
-  
-      return pstInsert.getUpdateCount();
+        Conta p = (Conta) param;
+
+        pstInsert.setInt(1, p.getIdUsuario());
+        pstInsert.setDouble(2, p.getValorTotal());
+        return pstInsert.executeUpdate();
     }
-  
-    public long Delete(Object param) {
-      Movimentacao p = (Movimentacao) param;
-      try {
-        pstDelete.setInt(1, p.getId());
-        pstDelete.execute();
-        return pstDelete.getUpdateCount();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-      return 0;
+
+    public int Update(Object param) throws SQLException {
+        Conta p = (Conta) param;
+
+        pstUpdate.setDouble(1, p.getValorTotal());
+        pstUpdate.setInt(2, p.getIdUsuario());
+        return pstUpdate.executeUpdate();
     }
-  
-    public long Insert(Object param, Object param2) throws SQLException {
-      Movimentacao p = (Movimentacao) param;
-  
-      try {
-        pstUpdate.setInt(1, p.getIdUsuario());
-        pstUpdate.setString(2, p.getTipo());
-        pstUpdate.setDouble(3, p.getValor());
-        pstUpdate.setTimestamp(
-          4,
-          new Timestamp(p.getDataMovimentacao().getTime())
-        );
-  
-        pstUpdate.execute();
-  
-        return pstUpdate.getUpdateCount();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-      return 0;
-    }
+
+    
 }
