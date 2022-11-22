@@ -10,7 +10,7 @@ import database.model.Usuario;
 public class UsuarioDAO {
     private Connection conexao;
     private String select = "SELECT * from usuario order by id";
-    private String selectComClausula = "SELECT * FROM usuario WHERE id = ?";
+    private String selectComClausula = "SELECT * FROM usuario WHERE nome = ?";
     private String insert = "INSERT into usuario " + "(codigo, nome, sobrenome, cpf, senha) VALUES (?, ?, ?, ?, ?)";
     private String delete = "DELETE FROM usuario WHERE id = ?";
     private String login = "SELECT * FROM usuario where nome = ? and senha = ?";
@@ -61,24 +61,16 @@ public class UsuarioDAO {
         return pstInsert.getUpdateCount();
     }
 
-    public List<Usuario> SelectComClausula(Object param) throws SQLException {
-        Usuario p = (Usuario) param;
-        pstSelectComClasula.setInt(1, p.getId());
+    public int SelectIdByNome(String nome) throws SQLException {
+        pstSelectComClasula.setString(1, nome);
         ResultSet resultado = pstSelectComClasula.executeQuery();
-        List<Usuario> arlUsuario = new ArrayList<>();
+        int id = 0;
 
         while (resultado.next()) {
-            p = new Usuario();
-            p.setId(resultado.getInt("id"));
-            p.setCodigo(resultado.getInt("codigo"));
-            p.setNome(resultado.getString("nome"));
-            p.setSobrenome(resultado.getString("sobrenome"));
-            p.setCpf(resultado.getString("cpf"));
-            p.setSenha(resultado.getString("senha"));
-            arlUsuario.add(p);
+            id = resultado.getInt("id");
         }
 
-        return arlUsuario;
+        return id;
     }
 
     public int Delete(Object param) throws SQLException {

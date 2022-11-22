@@ -12,11 +12,12 @@ public class Usuario {
         
     }
 
-    public Usuario(int codigo, String nome, String sobrenome, String cpf) {
+    public Usuario(int codigo, String nome, String sobrenome, String cpf , String senha) {
         this.codigo = codigo;
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.cpf = cpf;
+        this.senha = senha;
     }
 
     public void setId(int id) {

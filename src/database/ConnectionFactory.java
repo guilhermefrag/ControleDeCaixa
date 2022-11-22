@@ -15,14 +15,13 @@ public class ConnectionFactory {
     public Connection getConexao() {
         
         try {
-            System.out.println("Conectando ao banco de dados...");
             connection = DriverManager.getConnection(url, usuario, senha);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
         if (connection != null) {
-            System.out.println("Conectado com sucesso");
+            System.out.println("Sucesso");
         } else {
             System.out.println("Não foi possível conectar");
         }
