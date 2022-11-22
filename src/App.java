@@ -119,7 +119,7 @@ public class App {
             Transacoes();
         }
         else if (opcao == 3){
-            System.out.println("Seu saldo é de : " + contaDAO.getSaldo(usuario.getId()) + " reais");
+            System.out.println("Seu saldo é de : " + contaDAO.getSaldo(usuario.getId()) + " reais\n");
             Transacoes();
         }
         else {
