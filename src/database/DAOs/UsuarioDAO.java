@@ -11,8 +11,9 @@ public class UsuarioDAO {
     private Connection conexao;
     private String select = "SELECT * from usuario order by id";
     private String selectComClausula = "SELECT * FROM usuario WHERE id = ?";
-    private String insert = "INSERT into usuario " + "(codigo, nome, sobrenome, cpf) VALUES (?, ?, ?, ?)";
+    private String insert = "INSERT into usuario " + "(codigo, nome, sobrenome, cpf, senha) VALUES (?, ?, ?, ?, ?)";
     private String delete = "DELETE FROM usuario WHERE id = ?";
+    private String login = "SELECT * FROM usuario where nome = ? and senha = ?";
 
     private PreparedStatement pstSelect;
     private PreparedStatement pstSelectComClasula;
@@ -38,6 +39,7 @@ public class UsuarioDAO {
             p.setNome(resultado.getString("nome"));
             p.setSobrenome(resultado.getString("sobrenome"));
             p.setCpf(resultado.getString("cpf"));
+            p.setSenha(resultado.getString("senha"));
 
             arlUsuario.add(p);
         }
@@ -52,6 +54,7 @@ public class UsuarioDAO {
         pstInsert.setString(2, p.getNome());
         pstInsert.setString(3, p.getSobrenome());
         pstInsert.setString(4, p.getCpf());
+        pstInsert.setString(5, p.getSenha());
 
         pstInsert.execute();
 
@@ -71,7 +74,7 @@ public class UsuarioDAO {
             p.setNome(resultado.getString("nome"));
             p.setSobrenome(resultado.getString("sobrenome"));
             p.setCpf(resultado.getString("cpf"));
-
+            p.setSenha(resultado.getString("senha"));
             arlUsuario.add(p);
         }
 
@@ -84,5 +87,17 @@ public class UsuarioDAO {
         pstDelete.execute();
 
         return pstDelete.getUpdateCount();
+    }
+
+    public boolean Login(String nome, String senha) throws SQLException {
+        PreparedStatement pstLogin = conexao.prepareStatement(login);
+        pstLogin.setString(1, nome);
+        pstLogin.setString(2, senha);
+        ResultSet resultado = pstLogin.executeQuery();
+        if (resultado.next()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

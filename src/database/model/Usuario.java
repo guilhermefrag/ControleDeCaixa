@@ -6,6 +6,7 @@ public class Usuario {
     private String nome;
     private String sobrenome;
     private String cpf;
+    private String senha;
 
     public Usuario() {
         
@@ -57,5 +58,14 @@ public class Usuario {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+    
 
 }
