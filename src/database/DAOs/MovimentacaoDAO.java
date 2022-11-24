@@ -106,6 +106,7 @@ public class MovimentacaoDAO {
       p2.setId(resultado.getInt("id"));
       p2.setTipo(resultado.getString("tipo"));
       p2.setValor(resultado.getDouble("valor"));
+      p2.setDataMovimentacao(resultado.getDate("data_movimentacao"));
 
       arlMovimentacao.add(p2);
     }

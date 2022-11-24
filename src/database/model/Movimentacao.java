@@ -1,6 +1,7 @@
 package database.model;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class Movimentacao {
 
@@ -57,5 +58,20 @@ public class Movimentacao {
 
   public Date getDataMovimentacao() {
     return data_movimentacao;
+  }
+
+  @Override
+  public String toString() {
+    // TODO Auto-generated method stub
+
+    SimpleDateFormat std = new SimpleDateFormat();
+    return (
+      " Data movimentacao: " +
+      std.format(this.getDataMovimentacao()) +
+      " - Valor: " +
+      this.getValor() +
+      " - Tipo: " +
+      this.getTipo()
+    );
   }
 }
